@@ -1,365 +1,212 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMB - صيانة عمرو عمارة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        :root {
-            --primary: #0A2342;
-            --secondary: #2B6CB0;
-            --bg: #F7FAFC;
-            --white: #FFFFFF;
-            --text: #1A202C;
-            --gray: #718096;
-            --success: #48BB78;
-            --warning: #ED8936;
-            --danger: #F56565;
-        }
-        body { background: var(--bg); color: var(--text); max-width: 450px; margin: 0 auto; }
-       .screen { display: none; min-height: 100vh; padding-bottom: 80px; }
-       .screen.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Splash Screen */
-        #splash { background: var(--primary); color: var(--white); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        #splash.active { display: flex; }
-       .logo { font-size: 60px; font-weight: 700; margin-bottom: 10px; }
-       .logo span { color: var(--secondary); }
-       .splash-text { font-size: 18px; margin: 10px 0; }
-       .loading-dots { display: flex; gap: 8px; margin-top: 40px; }
-       .loading-dots span { width: 10px; height: 10px; background: var(--white); border-radius: 50%; animation: bounce 1.4s infinite; }
-       .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-       .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-
-        /* Header */
-       .header { background: var(--white); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-       .header-title { font-size: 18px; font-weight: 600; }
-       .header-icon { font-size: 22px; color: var(--primary); cursor: pointer; }
-
-        /* Home */
-       .welcome-card { background: var(--primary); color: var(--white); margin: 20px; padding: 20px; border-radius: 16px; }
-       .welcome-card h2 { font-size: 22px; margin-bottom: 5px; }
-       .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; margin-top: 20px; }
-       .service-card { background: var(--white); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); cursor: pointer; }
-       .service-card i { font-size: 32px; color: var(--secondary); margin-bottom: 10px; }
-       .service-card p { font-weight: 600; font-size: 14px; }
-       .discount-card { background: var(--primary); color: var(--white); margin: 20px; padding: 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
-       .discount-code { background: var(--white); color: var(--primary); padding: 8px 15px; border-radius: 8px; font-weight: 700; }
-
-        /* Form */
-       .form-container { padding: 20px; }
-       .stepper { display: flex; justify-content: space-between; margin-bottom: 30px; }
-       .step { text-align: center; flex: 1; position: relative; }
-       .step::after { content: ''; position: absolute; top: 15px; right: -50%; width: 100%; height: 2px; background: #E2E8F0; z-index: -1; }
-       .step:last-child::after { display: none; }
-       .step-circle { width: 30px; height: 30px; border-radius: 50%; background: #E2E8F0; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-weight: 600; }
-       .step.active.step-circle { background: var(--secondary); color: var(--white); }
-       .step.done.step-circle { background: var(--success); color: var(--white); }
-       .form-group { margin-bottom: 20px; }
-       .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
-       .form-group input,.form-group select,.form-group textarea { width: 100%; padding: 12px 15px; border: 1px solid #E2E8F0; border-radius: 10px; font-size: 15px; }
-       .device-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-       .device-option { border: 2px solid #E2E8F0; border-radius: 10px; padding: 15px 10px; text-align: center; cursor: pointer; }
-       .device-option.selected { border-color: var(--secondary); background: #EBF8FF; }
-       .device-option i { font-size: 28px; color: var(--secondary); margin-bottom: 5px; }
-       .btn { width: 100%; padding: 15px; background: var(--secondary); color: var(--white); border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
-
-        /* Orders */
-       .tabs { display: flex; background: var(--white); margin: 20px; border-radius: 12px; padding: 5px; }
-       .tab { flex: 1; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; }
-       .tab.active { background: var(--secondary); color: var(--white); }
-       .order-card { background: var(--white); margin: 0 20px 15px; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-       .order-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-       .status { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-       .status.ongoing { background: #FEF5E7; color: var(--warning); }
-       .status.done { background: #E6FFFA; color: var(--success); }
-       .status.cancelled { background: #FFF5F5; color: var(--danger); }
-
-        /* Bottom Nav */
-       .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; background: var(--white); display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); }
-       .nav-item { text-align: center; color: var(--gray); cursor: pointer; }
-       .nav-item.active { color: var(--secondary); }
-       .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
-       .nav-item span { font-size: 11px; font-weight: 600; }
-
-        /* Sidebar */
-       .sidebar { position: fixed; top: 0; right: -100%; width: 80%; max-width: 350px; height: 100vh; background: var(--primary); color: var(--white); z-index: 1000; transition: 0.3s; overflow-y: auto; }
-       .sidebar.active { right: 0; }
-       .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
-       .sidebar-overlay.active { display: block; }
-       .sidebar-profile { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-       .sidebar-profile img { width: 70px; height: 70px; border-radius: 50%; margin-bottom: 10px; }
-       .sidebar-menu { padding: 20px 0; }
-       .menu-item { padding: 15px 25px; display: flex; align-items: center; gap: 15px; cursor: pointer; }
-       .menu-item:hover { background: rgba(255,255,255,0.1); }
-
-       .features { padding: 20px; }
-       .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-       .feature-item { background: var(--white); padding: 15px; border-radius: 12px; text-align: center; }
-       .feature-item i { font-size: 28px; color: var(--secondary); margin-bottom: 8px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMB - المهندس عمرو خالد عمارة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#f8fafc}
+.page{display:none}
+.page.active{display:block}
+.header{background:linear-gradient(135deg,#2563eb,#1e40af);color:#fff;padding:25px 20px;text-align:center}
+.logo{width:65px;height:65px;background:#fff;color:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;margin:0 auto 12px}
+.privacy{background:#fef3c7;border:2px solid #f59e0b;color:#92400e;padding:10px;border-radius:8px;margin:15px;font-size:13px;text-align:center;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:20px;max-width:700px;margin:0 auto}
+.card{background:#fff;border-radius:12px;padding:15px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer}
+.card-green{background:#10b981!important;color:#fff!important}
+.card h3{font-size:14px;margin:8px 0;font-weight:700}
+.card-icon{font-size:32px;margin-bottom:8px}
+.form-container{max-width:600px;margin:20px auto;padding:20px}
+.form-group{margin-bottom:15px}
+label{display:block;font-weight:700;margin-bottom:5px;font-size:14px}
+input,select,textarea{width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:8px;font-family:'Cairo';font-size:14px}
+.btn{display:block;width:100%;padding:15px;border:none;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;margin-top:10px}
+.btn-green{background:#10b981;color:#fff}
+.btn-discount{background:#f1f5f9;color:#475569;border:2px dashed #cbd5e1}
+.btn-discount.active{background:#10b981;color:#fff;border:none}
+.discount-input{display:none;margin-top:10px}
+.discount-input.show{display:block}
+.back-btn{color:#2563eb;background:#eff6ff;padding:10px;border-radius:8px;margin-bottom:15px;display:inline-block;cursor:pointer}
+.whatsapp{position:fixed;bottom:20px;left:20px;width:60px;height:60px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;box-shadow:0 4px 12px rgba(16,185,129,0.4)}
+</style>
 </head>
 <body>
-    <!-- Splash Screen -->
-    <div id="splash" class="screen active">
-        <div class="logo">AMB</div>
-        <div class="splash-text">صيانة عمرو عمارة</div>
-        <div style="font-size: 14px; opacity: 0.8;">صيانة الثلاجات والغسالات</div>
-        <div class="loading-dots"><span></span><span></span></div>
-        <div style="margin-top: 20px; font-size: 14px;">جاري التحميل...</div>
+
+<!-- الصفحة الرئيسية -->
+<div id="home" class="page active">
+  <div class="header">
+    <div class="logo">AMB</div>
+    <h1>المهندس عمرو خالد عمارة</h1>
+    <p>لصيانة الثلاجات والغسالات فقط</p>
+  </div>
+
+  <div class="privacy">🔒 أمان وخصوصية: بياناتك لا تُحفظ على أي سيرفر - تُرسل مباشرة عبر واتساب للمهندس عمرو فقط</div>
+
+  <div class="cards">
+    <div class="card" onclick="showPage('washing')">
+      <div class="card-icon">🧺</div>
+      <h3>صيانة غسالات</h3>
+    </div>
+    <div class="card card-green" onclick="window.location.href='tel:01201637344'">
+      <div class="card-icon">📞</div>
+      <h3>اتصال مباشر</h3>
+    </div>
+    <div class="card" onclick="showPage('fridge')">
+      <div class="card-icon">❄️</div>
+      <h3>صيانة تلاجات</h3>
+    </div>
+  </div>
+
+  <div class="whatsapp" onclick="window.open('https://wa.me/201201637344')">💬</div>
+</div>
+
+<!-- فورم الغسالة -->
+<div id="washing" class="page">
+  <div class="form-container">
+    <div class="back-btn" onclick="showPage('home')">← رجوع</div>
+    <h2 style="color:#2563eb;margin-bottom:20px">تسجيل طلب صيانة غسالة</h2>
+
+    <div class="form-group">
+      <label>الاسم</label>
+      <input type="text" id="w-name" placeholder="الاسم الكامل">
     </div>
 
-    <!-- Home Screen -->
-    <div id="home" class="screen">
-        <div class="header">
-            <i class="fas fa-bars header-icon" onclick="toggleSidebar()"></i>
-            <div class="header-title">القاهرة، مصر <i class="fas fa-map-marker-alt"></i></div>
-            <i class="fas fa-bell header-icon"></i>
-        </div>
-
-        <div class="welcome-card">
-            <h2>👋 أهلاً بك</h2>
-            <p>نحن هنا لخدمتك في أي وقت</p>
-        </div>
-
-        <h3 style="padding: 0 20px; margin-top: 20px;">الخدمات</h3>
-        <div class="services-grid">
-            <div class="service-card" onclick="showScreen('new-order')">
-                <i class="fas fa-tools"></i>
-                <p>طلب صيانة</p>
-                <small>اطلب فني الآن</small>
-            </div>
-            <div class="service-card" onclick="showScreen('track')">
-                <i class="fas fa-map-marked-alt"></i>
-                <p>متابعة الطلب</p>
-                <small>تتبع حالة طلبك</small>
-            </div>
-            <div class="service-card">
-                <i class="fab fa-whatsapp"></i>
-                <p>واتساب</p>
-                <small>تواصل معنا</small>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-phone"></i>
-                <p>اتصل بنا</p>
-                <small>خدمة العملاء</small>
-            </div>
-        </div>
-
-        <div class="discount-card">
-            <div>
-                <h3>خصم 20%</h3>
-                <p style="font-size: 13px; opacity: 0.9;">على أول طلب صيانة</p>
-            </div>
-            <div class="discount-code">AMB20</div>
-        </div>
-
-        <div class="features">
-            <h3 style="margin-bottom: 15px;">مميزات التطبيق</h3>
-            <div class="features-grid">
-                <div class="feature-item"><i class="fas fa-map-marker-alt"></i><p>تتبع مباشر لموقع الفني</p></div>
-                <div class="feature-item"><i class="fas fa-clock"></i><p>تقدير وقت الوصول بدقة</p></div>
-                <div class="feature-item"><i class="fas fa-bell"></i><p>إشعارات فورية لحالة الطلب</p></div>
-                <div class="feature-item"><i class="fas fa-headset"></i><p>دعم فني على مدار الساعة</p></div>
-            </div>
-        </div>
+    <div class="form-group">
+      <label>الموبايل</label>
+      <input type="tel" id="w-phone" placeholder="01xxxxxxxxx">
     </div>
 
-    <!-- New Order Screen -->
-    <div id="new-order" class="screen">
-        <div class="header">
-            <i class="fas fa-arrow-right header-icon" onclick="showScreen('home')"></i>
-            <div class="header-title">طلب صيانة</div>
-            <div></div>
-        </div>
-
-        <div class="form-container">
-            <div class="stepper">
-                <div class="step active"><div class="step-circle">1</div><small>بيانات الطلب</small></div>
-                <div class="step"><div class="step-circle">2</div><small>تحديد العطل</small></div>
-                <div class="step"><div class="step-circle">3</div><small>تأكيد الطلب</small></div>
-            </div>
-
-            <h3>بيانات العميل</h3>
-            <div class="form-group">
-                <label>الاسم الكامل</label>
-                <input type="text" placeholder="ادخل اسمك بالكامل">
-            </div>
-            <div class="form-group">
-                <label>رقم الهاتف</label>
-                <input type="tel" placeholder="ادخل رقم هاتفك">
-            </div>
-            <div class="form-group">
-                <label>العنوان</label>
-                <input type="text" placeholder="ادخل عنوانك بالتفصيل">
-            </div>
-
-            <h3 style="margin-top: 25px;">نوع الجهاز</h3>
-            <div class="device-grid">
-                <div class="device-option selected" onclick="selectDevice(this)">
-                    <i class="fas fa-th-large"></i>
-                    <p>ثلاجة</p>
-                </div>
-                <div class="device-option" onclick="selectDevice(this)">
-                    <i class="fas fa-soap"></i>
-                    <p>غسالة</p>
-                </div>
-                <div class="device-option" onclick="selectDevice(this)">
-                    <i class="fas fa-snowflake"></i>
-                    <p>ديب فريزر</p>
-                </div>
-            </div>
-
-            <div class="form-group" style="margin-top: 20px;">
-                <label>نوع العطل</label>
-                <select><option>اختر نوع العطل</option><option>لا تبرد</option><option>صوت عالي</option><option>تسريب مياه</option></select>
-            </div>
-
-            <div class="form-group">
-                <label>وصف العطل (اختياري)</label>
-                <textarea rows="3" placeholder="اكتب وصف مختصر عن العطل"></textarea>
-            </div>
-
-            <button class="btn" onclick="showScreen('track')">التالي</button>
-        </div>
+    <div class="form-group">
+      <label>نوع الغسالة</label>
+      <select id="w-type">
+        <option>غسالة أوتوماتيك</option>
+        <option>فوق أوتوماتيك</option>
+        <option>نص أوتوماتيك</option>
+      </select>
     </div>
 
-    <!-- Track Order Screen -->
-    <div id="track" class="screen">
-        <div class="header">
-            <i class="fas fa-arrow-right header-icon" onclick="showScreen('home')"></i>
-            <div class="header-title">متابعة الطلب</div>
-            <div></div>
-        </div>
-
-        <div style="padding: 20px;">
-            <div class="order-card">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                    <div>
-                        <p style="font-size: 13px; color: var(--gray);">رقم الطلب</p>
-                        <h3>#1258</h3>
-                    </div>
-                    <div style="text-align: left;">
-                        <p style="font-size: 13px; color: var(--gray);">حالة الطلب</p>
-                        <h3 style="color: var(--warning);">جاري التوجه إليك</h3>
-                    </div>
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <img src="https://i.pravatar.cc/60" style="width: 50px; height: 50px; border-radius: 50%;">
-                    <div>
-                        <p style="font-weight: 600;">أحمد محمد</p>
-                        <p style="font-size: 13px; color: var(--gray);">⭐ 4.9</p>
-                    </div>
-                </div>
-            </div>
-
-            <div style="background: #E2E8F0; height: 200px; border-radius: 12px; margin: 20px 0; display: flex; align-items: center; justify-content: center; color: var(--gray);">
-                <i class="fas fa-map-marked-alt" style="font-size: 40px;"></i>
-                <p style="margin-right: 10px;">متبقي 15 دقيقة</p>
-            </div>
-
-            <button class="btn"><i class="fas fa-phone"></i> تواصل مع الفني</button>
-        </div>
+    <div class="form-group">
+      <label>وصف العطل</label>
+      <textarea id="w-issue" rows="3" placeholder="صوت عالي - مش بتعصر"></textarea>
     </div>
 
-    <!-- Orders Screen -->
-    <div id="orders" class="screen">
-        <div class="header">
-            <i class="fas fa-arrow-right header-icon" onclick="showScreen('home')"></i>
-            <div class="header-title">طلباتي</div>
-            <div></div>
-        </div>
-
-        <div class="tabs">
-            <div class="tab active">الكل</div>
-            <div class="tab">جارية</div>
-            <div class="tab">مكتملة</div>
-            <div class="tab">ملغية</div>
-        </div>
-
-        <div class="order-card">
-            <div class="order-header">
-                <span>#1258</span>
-                <span class="status ongoing">جاري التوجه</span>
-            </div>
-            <p style="font-weight: 600;">ثلاجة - لا تبرد من الأسفل</p>
-            <p style="font-size: 13px; color: var(--gray); margin-top: 5px;"><i class="far fa-clock"></i> 21 يونيو 2024 - 02:30 م</p>
-        </div>
-
-        <div class="order-card">
-            <div class="order-header">
-                <span>#1256</span>
-                <span class="status done">مكتمل</span>
-            </div>
-            <p style="font-weight: 600;">غسالة - لا تشطف الملابس</p>
-            <p style="font-size: 13px; color: var(--gray); margin-top: 5px;"><i class="far fa-clock"></i> 18 يونيو 2024 - 11:00 ص</p>
-        </div>
+    <div class="form-group">
+      <label>العنوان</label>
+      <input type="text" id="w-address" placeholder="شبين الكوم">
     </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
-    <div class="sidebar">
-        <div class="sidebar-profile">
-            <img src="https://i.pravatar.cc/100" alt="profile">
-            <h3>أحمد محمد</h3>
-            <p style="opacity: 0.8; font-size: 14px;">010 1234 5678</p>
-        </div>
-        <div class="sidebar-menu">
-            <div class="menu-item" onclick="showScreen('home'); toggleSidebar();"><i class="fas fa-home"></i><span>الرئيسية</span></div>
-            <div class="menu-item" onclick="showScreen('new-order'); toggleSidebar();"><i class="fas fa-plus-circle"></i><span>طلب صيانة</span></div>
-            <div class="menu-item" onclick="showScreen('orders'); toggleSidebar();"><i class="fas fa-list"></i><span>طلباتي</span></div>
-            <div class="menu-item"><i class="fas fa-tag"></i><span>العروض والخصومات</span></div>
-            <div class="menu-item"><i class="fas fa-comments"></i><span>الدردشة</span></div>
-            <div class="menu-item"><i class="fas fa-star"></i><span>تقييم الخدمة</span></div>
-            <div class="menu-item"><i class="fas fa-question-circle"></i><span>الأسئلة الشائعة</span></div>
-            <div class="menu-item"><i class="fas fa-cog"></i><span>الإعدادات</span></div>
-            <div class="menu-item" style="color: #FC8181;"><i class="fas fa-sign-out-alt"></i><span>تسجيل خروج</span></div>
-        </div>
+    <button class="btn btn-discount" id="w-discount-btn" onclick="toggleDiscount('w')">🎁 عندك كود خصم؟</button>
+    <div class="discount-input" id="w-discount-input">
+      <input type="text" id="w-discount-code" placeholder="اكتب كود الخصم">
+      <button class="btn btn-green" style="margin-top:8px" onclick="applyDiscount('w')">تفعيل الخصم</button>
     </div>
 
-    <!-- Bottom Nav -->
-    <div class="bottom-nav">
-        <div class="nav-item" onclick="showScreen('home')">
-            <i class="fas fa-home"></i><span>الرئيسية</span>
-        </div>
-        <div class="nav-item" onclick="showScreen('orders')">
-            <i class="fas fa-clipboard-list"></i><span>الطلبات</span>
-        </div>
-        <div class="nav-item">
-            <i class="fas fa-comments"></i><span>الدردشة</span>
-        </div>
-        <div class="nav-item">
-            <i class="fas fa-user"></i><span>الحساب</span>
-        </div>
+    <button class="btn btn-green" onclick="submitForm('washing')">إرسال الطلب</button>
+  </div>
+</div>
+
+<!-- فورم التلاجة -->
+<div id="fridge" class="page">
+  <div class="form-container">
+    <div class="back-btn" onclick="showPage('home')">← رجوع</div>
+    <h2 style="color:#2563eb;margin-bottom:20px">تسجيل طلب صيانة ثلاجة</h2>
+
+    <div class="form-group">
+      <label>الاسم</label>
+      <input type="text" id="f-name" placeholder="الاسم الكامل">
     </div>
 
-    <script>
-        // Show splash then home
-        setTimeout(() => { showScreen('home'); }, 2000);
+    <div class="form-group">
+      <label>الموبايل</label>
+      <input type="tel" id="f-phone" placeholder="01xxxxxxxxx">
+    </div>
 
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+    <div class="form-group">
+      <label>نوع الثلاجة</label>
+      <select id="f-type">
+        <option>ثلاجة باب واحد</option>
+        <option>ثلاجة بابين</option>
+        <option>نوفروست</option>
+        <option>ديب فريزر أفقي</option>
+        <option>ديب فريزر رأسي</option>
+      </select>
+    </div>
 
-            // Update bottom nav
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if(id === 'home') document.querySelectorAll('.nav-item')[0].classList.add('active');
-            if(id === 'orders') document.querySelectorAll('.nav-item')[1].classList.add('active');
-        }
+    <div class="form-group">
+      <label>وصف العطل</label>
+      <textarea id="f-issue" rows="3" placeholder="التبريد ضعيف - بتنزل مياه - بتعمل تلج كتير"></textarea>
+    </div>
 
-        function toggleSidebar() {
-            document.querySelector('.sidebar').classList.toggle('active');
-            document.querySelector('.sidebar-overlay').classList.toggle('active');
-        }
+    <div class="form-group">
+      <label>العنوان</label>
+      <input type="text" id="f-address" placeholder="شبين الكوم">
+    </div>
 
-        function selectDevice(el) {
-            document.querySelectorAll('.device-option').forEach(d => d.classList.remove('selected'));
-            el.classList.add('selected');
-        }
-    </script>
+    <button class="btn btn-discount" id="f-discount-btn" onclick="toggleDiscount('f')">🎁 عندك كود خصم؟</button>
+    <div class="discount-input" id="f-discount-input">
+      <input type="text" id="f-discount-code" placeholder="اكتب كود الخصم">
+      <button class="btn btn-green" style="margin-top:8px" onclick="applyDiscount('f')">تفعيل الخصم</button>
+    </div>
+
+    <button class="btn btn-green" onclick="submitForm('fridge')">إرسال الطلب</button>
+  </div>
+</div>
+
+<script>
+let discountApplied = {w:false, f:false};
+
+function showPage(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+}
+
+function toggleDiscount(type){
+  document.getElementById(type+'-discount-input').classList.toggle('show');
+}
+
+function applyDiscount(type){
+  const code = document.getElementById(type+'-discount-code').value;
+  if(code){
+    discountApplied[type] = true;
+    const btn = document.getElementById(type+'-discount-btn');
+    btn.classList.add('active');
+    btn.innerHTML = '✅ تم تفعيل خصم 10%';
+    document.getElementById(type+'-discount-input').classList.remove('show');
+  }
+}
+
+function submitForm(type){
+  const prefix = type === 'washing'? 'w' : 'f';
+  const name = document.getElementById(prefix+'-name').value;
+  const phone = document.getElementById(prefix+'-phone').value;
+  const dtype = document.getElementById(prefix+'-type').value;
+  const issue = document.getElementById(prefix+'-issue').value;
+  const address = document.getElementById(prefix+'-address').value;
+
+  if(!name ||!phone){
+    alert('من فضلك املأ الاسم والموبايل');
+    return;
+  }
+
+  const serviceType = type === 'washing'? 'صيانة الغسالة' : 'صيانة الثلاجة';
+  let msg = `*طلب ${serviceType}*\n\n`;
+  msg += `الاسم: ${name}\n`;
+  msg += `الموبايل: ${phone}\n`;
+  msg += `النوع: ${dtype}\n`;
+  msg += `العطل: ${issue}\n`;
+  msg += `العنوان: ${address}\n`;
+  if(discountApplied[prefix]){
+    msg += `\n🎁 خصم 10% مفعل\n`;
+  }
+  msg += `\n🔒 بيانات العميل محمية - وصلت للمهندس عمرو فقط`;
+
+  window.open(`https://wa.me/201201637344?text=${encodeURIComponent(msg)}`);
+  showPage('home');
+  alert('✅ تم الإرسال بنجاح');
+}
+</script>
+
 </body>
 </html>
