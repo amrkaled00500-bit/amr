@@ -24,255 +24,425 @@
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMB - المهندس عمرو خالد عمارة | صيانة الثلاجات والغسالات</title>
+<title>AMB - المهندس عمرو خالد عمارة لصيانة الثلاجات والغسالات</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-  * {
-    font-family: 'Cairo', sans-serif;
-  }
-  
-  body {
-    background: #0a0e27;
-    background-image: 
-      radial-gradient(at 20% 30%, rgba(29, 78, 216, 0.15) 0px, transparent 50%),
-      radial-gradient(at 80% 70%, rgba(30, 64, 175, 0.15) 0px, transparent 50%);
-    min-height: 100vh;
-  }
-
-  .logo-gradient {
-    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
-    box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
-  }
-
-  .card-glow {
-    background: linear-gradient(145deg, #111936, #0d1530);
-    box-shadow: 
-      0 4px 20px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    transition: all 0.3s ease;
-  }
-
-  .card-glow:hover {
-    transform: translateY(-4px);
-    box-shadow: 
-      0 8px 30px rgba(59, 130, 246, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    border-color: rgba(59, 130, 246, 0.4);
-  }
-
-  .whatsapp-btn {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
-    transition: all 0.3s ease;
-  }
-
-  .whatsapp-btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
-  }
-
-  .whatsapp-btn:active {
-    transform: translateY(0) scale(0.98);
-  }
-
-  .pulse-animation {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% {
-      opacity: 1;
+    * {
+        font-family: 'Cairo', sans-serif;
     }
-    50% {
-      opacity: 0.7;
+    
+    :root {
+        --bg: #0a0f1e;
+        --card: #111827;
+        --card-hover: #1a2332;
+        --accent: #00d47e;
+        --accent-hover: #00b86b;
+        --text: #e5e7eb;
+        --text-muted: #9ca3af;
+        --border: #1f2937;
     }
-  }
 
-  .icon-wrapper {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(30, 64, 175, 0.2) 100%);
-    border: 2px solid rgba(59, 130, 246, 0.3);
-  }
+    body {
+        background: var(--bg);
+        color: var(--text);
+        overscroll-behavior: none;
+        -webkit-tap-highlight-color: transparent;
+    }
 
-  .form-container {
-    background: linear-gradient(145deg, #111936, #0d1530);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  }
+    .screen {
+        display: none;
+        animation: fadeSlide 0.35s ease;
+    }
+    
+    .screen.active {
+        display: block;
+    }
 
-  iframe {
-    border-radius: 12px;
-  }
+    @keyframes fadeSlide {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .glow {
+        box-shadow: 0 0 20px rgba(0, 212, 126, 0.15), 0 0 40px rgba(0, 212, 126, 0.1);
+    }
+
+    .card-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-hover:active {
+        transform: scale(0.98);
+    }
+
+    @media (hover: hover) {
+        .card-hover:hover {
+            background: var(--card-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 212, 126, 0.12);
+        }
+    }
+
+    .nav-item {
+        transition: all 0.2s ease;
+    }
+
+    .nav-item.active {
+        color: var(--accent);
+    }
+
+    .nav-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 50%;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        right: 11px;
+        top: 32px;
+        bottom: -32px;
+        width: 2px;
+        background: var(--border);
+    }
+
+    .timeline-item:last-child::before {
+        display: none;
+    }
+
+    .timeline-item.active .timeline-dot {
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(0, 212, 126, 0.2);
+    }
+
+    .timeline-item.active::before {
+        background: var(--accent);
+    }
+
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(0, 212, 126, 0.1);
+    }
+
+    .whatsapp-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.7;
+        }
+    }
+
+    .success-check {
+        animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes scaleIn {
+        from {
+            transform: scale(0);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
 </style>
 </head>
-<body class="text-white">
-  <div class="w-full max-w-[450px] mx-auto px-4 py-6 sm:px-6 sm:py-8">
+<body class="min-h-screen pb-20 max-w-md mx-auto relative">
     
-    <!-- Logo Section -->
-    <div class="mb-8 text-center">
-      <div class="logo-gradient rounded-3xl p-6 mb-4 inline-block w-full">
-        <div class="flex items-center justify-center gap-3 mb-3">
-          <div class="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-            <i class="fas fa-tools text-2xl text-white"></i>
-          </div>
-          <h1 class="text-4xl font-extrabold tracking-wider">AMB</h1>
-        </div>
-        <h2 class="text-xl font-bold mb-2">المهندس عمرو خالد عمارة</h2>
-        <p class="text-sm text-blue-100 font-medium">لصيانة الثلاجات والغسالات فقط</p>
-      </div>
-      
-      <!-- Trust Badges -->
-      <div class="flex items-center justify-center gap-4 text-xs text-blue-300">
-        <div class="flex items-center gap-1">
-          <i class="fas fa-check-circle text-green-400"></i>
-          <span>خدمة موثوقة</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <i class="fas fa-bolt text-yellow-400"></i>
-          <span>استجابة سريعة</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <i class="fas fa-shield-alt text-blue-400"></i>
-          <span>ضمان على الصيانة</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Services Section -->
-    <div class="mb-6">
-      <h3 class="text-lg font-bold mb-4 text-center text-blue-200">
-        <i class="fas fa-wrench ml-2"></i>
-        خدماتنا المتخصصة
-      </h3>
-      
-      <div class="space-y-4">
-        <!-- Refrigerator Card -->
-        <div class="card-glow rounded-2xl p-5">
-          <div class="flex items-start gap-4">
-            <div class="icon-wrapper w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0">
-              <span class="text-4xl">❄️</span>
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-[#0a0f1e]/95 backdrop-blur-lg border-b border-[#1f2937]">
+        <div class="px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00d47e] to-[#00b86b] flex items-center justify-center font-black text-[#0a0f1e] text-lg glow">
+                    AMB
+                </div>
+                <div>
+                    <h1 class="text-sm font-bold leading-tight">المهندس عمرو خالد عمارة</h1>
+                    <p class="text-xs text-[#9ca3af]">لصيانة الثلاجات والغسالات فقط</p>
+                </div>
             </div>
-            <div class="flex-1">
-              <h4 class="text-xl font-bold mb-2 text-blue-100">صيانة ثلاجات</h4>
-              <p class="text-sm text-gray-300 leading-relaxed">نوفروست، ديفروست، سايد باي سايد</p>
-              <div class="flex flex-wrap gap-2 mt-3">
-                <span class="text-xs bg-blue-900/40 text-blue-300 px-2 py-1 rounded-lg">تبريد ضعيف</span>
-                <span class="text-xs bg-blue-900/40 text-blue-300 px-2 py-1 rounded-lg">تسريب مياه</span>
-                <span class="text-xs bg-blue-900/40 text-blue-300 px-2 py-1 rounded-lg">أعطال كهربائية</span>
-              </div>
+            <button onclick="openWhatsApp()" class="w-10 h-10 rounded-full bg-[#00d47e]/10 border border-[#00d47e]/30 flex items-center justify-center text-[#00d47e]">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Screens Container -->
+    <main class="px-4 py-6">
+        
+        <!-- Screen 1: الرئيسية -->
+        <div id="home" class="screen active">
+            <div class="mb-8 text-center">
+                <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#00d47e] to-[#00b86b] flex items-center justify-center font-black text-[#0a0f1e] text-3xl glow">
+                    AMB
+                </div>
+                <h2 class="text-2xl font-extrabold mb-2">مرحباً بك في AMB</h2>
+                <p class="text-[#9ca3af] text-sm">خدمة صيانة احترافية للثلاجات والغسالات</p>
             </div>
-          </div>
+
+            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                <i data-lucide="wrench" class="w-5 h-5 text-[#00d47e]"></i>
+                خدماتنا الرئيسية
+            </h3>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div onclick="showScreen('fridges')" class="card-hover bg-[#111827] border border-[#1f2937] rounded-2xl p-5 cursor-pointer">
+                    <div class="w-14 h-14 rounded-xl bg-[#00d47e]/10 flex items-center justify-center mb-3">
+                        <i data-lucide="refrigerator" class="w-7 h-7 text-[#00d47e]"></i>
+                    </div>
+                    <h4 class="font-bold mb-1">صيانة ثلاجات</h4>
+                    <p class="text-xs text-[#9ca3af]">جميع الماركات</p>
+                </div>
+
+                <div onclick="showScreen('washers')" class="card-hover bg-[#111827] border border-[#1f2937] rounded-2xl p-5 cursor-pointer">
+                    <div class="w-14 h-14 rounded-xl bg-[#00d47e]/10 flex items-center justify-center mb-3">
+                        <i data-lucide="washing-machine" class="w-7 h-7 text-[#00d47e]"></i>
+                    </div>
+                    <h4 class="font-bold mb-1">صيانة غسالات</h4>
+                    <p class="text-xs text-[#9ca3af]">أوتوماتيك وعادي</p>
+                </div>
+            </div>
+
+            <div onclick="showScreen('request')" class="card-hover bg-gradient-to-br from-[#111827] to-[#1a2332] border border-[#00d47e]/30 rounded-2xl p-5 mb-6 cursor-pointer">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-[#00d47e]/10 flex items-center justify-center">
+                            <i data-lucide="clipboard-list" class="w-6 h-6 text-[#00d47e]"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">طلب صيانة جديد</h4>
+                            <p class="text-xs text-[#9ca3af]">احجز موعدك الآن</p>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-left" class="w-5 h-5 text-[#00d47e]"></i>
+                </div>
+            </div>
+
+            <button onclick="openWhatsApp()" class="w-full bg-[#00d47e] hover:bg-[#00b86b] text-[#0a0f1e] font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all whatsapp-pulse">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                استفسار عبر واتساب
+            </button>
         </div>
 
-        <!-- Washing Machine Card -->
-        <div class="card-glow rounded-2xl p-5">
-          <div class="flex items-start gap-4">
-            <div class="icon-wrapper w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0">
-              <span class="text-4xl">🧺</span>
+        <!-- Screen 2: صيانة الثلاجات -->
+        <div id="fridges" class="screen">
+            <button onclick="showScreen('home')" class="mb-6 flex items-center gap-2 text-[#9ca3af] hover:text-[#00d47e] transition-colors">
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                العودة
+            </button>
+
+            <h2 class="text-2xl font-extrabold mb-2">صيانة الثلاجات</h2>
+            <p class="text-[#9ca3af] mb-6">نقدم جميع خدمات صيانة الثلاجات</p>
+
+            <div class="space-y-3 mb-6">
+                <div class="bg-[#111827] border border-[#1f2937] rounded-xl p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 rounded-lg bg-[#00d47e]/10 flex items-center justify-center">
+                            <i data-lucide="snowflake" class="w-6 h-6 text-[#00d47e]"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">ثلاجات نوفروست</h4>
+                            <p class="text-xs text-[#9ca3af]">بدون ثلج - تبريد متطور</p>
+                        </div>
+                    </div>
+                    <button onclick="requestService('ثلاجة نوفروست')" class="w-full bg-[#00d47e]/10 border border-[#00d47e]/30 text-[#00d47e] py-2 rounded-lg text-sm font-semibold hover:bg-[#00d47e]/20 transition-all">
+                        احجز الآن عبر واتساب
+                    </button>
+                </div>
+
+                <div class="bg-[#111827] border border-[#1f2937] rounded-xl p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 rounded-lg bg-[#00d47e]/10 flex items-center justify-center">
+                            <i data-lucide="thermometer-snowflake" class="w-6 h-6 text-[#00d47e]"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">ثلاجات ديفروست</h4>
+                            <p class="text-xs text-[#9ca3af]">تبريد مباشر</p>
+                        </div>
+                    </div>
+                    <button onclick="requestService('ثلاجة ديفروست')" class="w-full bg-[#00d47e]/10 border border-[#00d47e]/30 text-[#00d47e] py-2 rounded-lg text-sm font-semibold hover:bg-[#00d47e]/20 transition-all">
+                        احجز الآن عبر واتساب
+                    </button>
+                </div>
+
+                <div class="bg-[#111827] border border-[#1f2937] rounded-xl p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 rounded-lg bg-[#00d47e]/10 flex items-center justify-center">
+                            <i data-lucide="columns-2" class="w-6 h-6 text-[#00d47e]"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">سايد باي سايد</h4>
+                            <p class="text-xs text-[#9ca3af]">بابين جنب بعض</p>
+                        </div>
+                    </div>
+                    <button onclick="requestService('ثلاجة سايد باي سايد')" class="w-full bg-[#00d47e]/10 border border-[#00d47e]/30 text-[#00d47e] py-2 rounded-lg text-sm font-semibold hover:bg-[#00d47e]/20 transition-all">
+                        احجز الآن عبر واتساب
+                    </button>
+                </div>
+
+                <div class="bg-[#111827] border border-[#1f2937] rounded-xl p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 rounded-lg bg-[#00d47e]/10 flex items-center justify-center">
+                            <i data-lucide="store" class="w-6 h-6 text-[#00d47e]"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">ثلاجات عرض</h4>
+                            <p class="text-xs text-[#9ca3af]">محلات ومطاعم</p>
+                        </div>
+                    </div>
+                    <button onclick="requestService('ثلاجة عرض')" class="w-full bg-[#00d47e]/10 border border-[#00d47e]/30 text-[#00d47e] py-2 rounded-lg text-sm font-semibold hover:bg-[#00d47e]/20 transition-all">
+                        احجز الآن عبر واتساب
+                    </button>
+                </div>
             </div>
-            <div class="flex-1">
-              <h4 class="text-xl font-bold mb-2 text-blue-100">صيانة غسالات</h4>
-              <p class="text-sm text-gray-300 leading-relaxed">أوتوماتيك، فوق أوتوماتيك، أطباق</p>
-              <div class="flex flex-wrap gap-2 mt-3">
-                <span class="text-xs bg-blue-900/40 text-blue-300 px-2 py-1 rounded-lg">عدم العصر</span>
-                <span class="text-xs bg-blue-900/40 text-blue-300 px-2 py-1 rounded-lg">صوت عالي</span>
-                <span class="text-xs bg-blue-900/40 text-blue-300 px-2 py-1 rounded-lg">تسريب</span>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- WhatsApp CTA Button -->
-    <a href="https://wa.me/201201637344?text=مرحبا%20مهندس%20عمرو،%20عايز%20احجز%20صيانة" 
-       target="_blank" 
-       rel="noopener noreferrer"
-       class="whatsapp-btn w-full py-5 px-6 rounded-2xl flex items-center justify-center gap-3 mb-6 text-lg font-bold">
-      <i class="fab fa-whatsapp text-3xl"></i>
-      <span>استفسار عبر واتساب</span>
-      <span class="pulse-animation absolute -top-1 -left-1 w-3 h-3 bg-green-400 rounded-full"></span>
-    </a>
+        <!-- Screen 3: صيانة الغسالات -->
+        <div id="washers" class="screen">
+            <button onclick="showScreen('home')" class="mb-6 flex items-center gap-2 text-[#9ca3af] hover:text-[#00d47e] transition-colors">
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                العودة
+            </button>
 
-    <!-- Emergency Contact -->
-    <div class="card-glow rounded-xl p-4 mb-6 text-center">
-      <p class="text-sm text-gray-300 mb-2">للتواصل السريع</p>
-      <a href="tel:01201637344" class="text-2xl font-bold text-blue-300 hover:text-blue-200 transition-colors">
-        <i class="fas fa-phone-alt ml-2"></i>
-        01201637344
-      </a>
-    </div>
+            <h2 class="text-2xl font-extrabold mb-2">صيانة الغسالات</h2>
+            <p class="text-[#9ca3af] mb-6">نقدم جميع خدمات صيانة الغسالات</p>
 
-    <!-- Tally Form Section -->
-    <div class="mb-6">
-      <h3 class="text-lg font-bold mb-4 text-center text-blue-200">
-        <i class="fas fa-calendar-check ml-2"></i>
-        احجز صيانة الآن
-      </h3>
-      <div class="form-container rounded-2xl p-4 overflow-hidden">
-        <iframe 
-          data-tally-src="https://tally.so/embed/6857qo?alignLeft=1&hideTitle=1&transparentBackground=1" 
-          loading="lazy" 
-          width="100%" 
-          height="500" 
-          frameborder="0" 
-          marginheight="0" 
-          marginwidth="0" 
-          title="نموذج حجز صيانة">
-        </iframe>
-      </div>
-    </div>
+            <div class="space-y-3 mb-6">
+                <div class="bg-[#111827] border border-[#1f2937] rounded-xl p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 rounded-lg bg-[#00d47e]/10 flex items-center justify-center">
+                            <i data-lucide="settings-2" class="w-6 h-6 text-[#00d47e]"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">غسالات أوتوماتيك</h4>
+                            <p class="text-xs text-[#9ca3af]">تحميل أمامي وعلوي</p>
+                        </div>
+                    </div>
+                    <button onclick="requestService('غسالة أوتوماتيك')" class="w-full bg-[#00d47e]/10 border border-[#00d47e]/30 text-[#00d47e] py-2 rounded-lg text-sm font-semibold hover:bg-[#00d47e]/20 transition-all">
+                        احجز الآن عبر واتساب
+                    </button>
+                </div>
 
-    <!-- Features -->
-    <div class="grid grid-cols-3 gap-3 mb-6">
-      <div class="card-glow rounded-xl p-3 text-center">
-        <i class="fas fa-clock text-2xl text-blue-400 mb-2"></i>
-        <p class="text-xs text-gray-300">خدمة سريعة</p>
-      </div>
-      <div class="card-glow rounded-xl p-3 text-center">
-        <i class="fas fa-medal text-2xl text-yellow-400 mb-2"></i>
-        <p class="text-xs text-gray-300">خبرة عالية</p>
-      </div>
-      <div class="card-glow rounded-xl p-3 text-center">
-        <i class="fas fa-hand-holding-dollar text-2xl text-green-400 mb-2"></i>
-        <p class="text-xs text-gray-300">أسعار مناسبة</p>
-      </div>
-    </div>
+                <div class="bg-[#111827] border border-[#1f2937] rounded-xl p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 rounded-lg bg-[#00d47e]/10 flex items-center justify-center">
+                            <i data-lucide="washing-machine" class="w-6 h-6 text-[#00d47e]"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">غسالات فوق أوتوماتيك</h4>
+                            <p class="text-xs text-[#9ca3af]">نصف أوتوماتيك</p>
+                        </div>
+                    </div>
+                    <button onclick="requestService('غسالة فوق أوتوماتيك')" class="w-full bg-[#00d47e]/10 border border-[#00d47e]/30 text-[#00d47e] py-2 rounded-lg text-sm font-semibold hover:bg-[#00d47e]/20 transition-all">
+                        احجز الآن عبر واتساب
+                    </button>
+                </div>
 
-    <!-- Footer -->
-    <footer class="text-center pt-6 border-t border-blue-900/30">
-      <div class="flex items-center justify-center gap-2 mb-3">
-        <i class="fas fa-map-marker-alt text-blue-400"></i>
-        <p class="text-sm text-gray-400">نخدم جميع أنحاء المحافظة</p>
-      </div>
-      <p class="text-xs text-gray-500 mb-2">
-        © 2025 AMB - المهندس عمرو خالد عمارة
-      </p>
-      <p class="text-xs text-gray-600">
-        جميع الحقوق محفوظة | صيانة احترافية للثلاجات والغسالات
-      </p>
-    </footer>
+                <div class="bg-[#111827] border border-[#1f2937] rounded-xl p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 rounded-lg bg-[#00d47e]/10 flex items-center justify-center">
+                            <i data-lucide="utensils" class="w-6 h-6 text-[#00d47e]"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold">غسالات أطباق</h4>
+                            <p class="text-xs text-[#9ca3af]">جميع الماركات</p>
+                        </div>
+                    </div>
+                    <button onclick="requestService('غسالة أطباق')" class="w-full bg-[#00d47e]/10 border border-[#00d47e]/30 text-[#00d47e] py-2 rounded-lg text-sm font-semibold hover:bg-[#00d47e]/20 transition-all">
+                        احجز الآن عبر واتساب
+                    </button>
+                </div>
+            </div>
+        </div>
 
-  </div>
+        <!-- Screen 4: طلب صيانة -->
+        <div id="request" class="screen">
+            <button onclick="showScreen('home')" class="mb-6 flex items-center gap-2 text-[#9ca3af] hover:text-[#00d47e] transition-colors">
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                العودة
+            </button>
 
-  <!-- Tally Embed Script -->
-  <script>
-    var d=document,w="https://tally.so/widgets/embed.js",v=function(){
-      "undefined"!=typeof Tally?Tally.loadEmbeds():
-      d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){
-        e.src=e.dataset.tallySrc
-      }))
-    };
-    if("undefined"!=typeof Tally)v();
-    else if(d.querySelector('script[src="'+w+'"]')==null){
-      var s=d.createElement("script");
-      s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);
-    }
-  </script>
-<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
-<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;var a=target.closest?target.closest("a[href]"):null;if(!a||!a.href||!/^https?:\/\//.test(a.href))return;if(a.href.replace(/#.*$/,"")===loc)return;var productId=extractProductId(target)||extractProductId(a);if(!productId)return;e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*")},true)})();</script></body>
-</html>
+            <h2 class="text-2xl font-extrabold mb-2">طلب صيانة</h2>
+            <p class="text-[#9ca3af] mb-6">يرجى ملء البيانات التالية</p>
+
+            <form id="serviceForm" onsubmit="submitForm(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">الاسم بالكامل</label>
+                    <input type="text" id="name" required class="w-full bg-[#111827] border border-[#1f2937] rounded-xl px-4 py-3 text-sm transition-all" placeholder="أدخل اسمك كاملاً">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">رقم الهاتف</label>
+                    <input type="tel" id="phone" required class="w-full bg-[#111827] border border-[#1f2937] rounded-xl px-4 py-3 text-sm transition-all" placeholder="01xxxxxxxxx">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">نوع الجهاز</label>
+                    <select id="device" required class="w-full bg-[#111827] border border-[#1f2937] rounded-xl px-4 py-3 text-sm transition-all">
+                        <option value="">اختر نوع الجهاز</option>
+                        <option value="ثلاجة نوفروست">ثلاجة نوفروست</option>
+                        <option value="ثلاجة ديفروست">ثلاجة ديفروست</option>
+                        <option value="ثلاجة سايد باي سايد">ثلاجة سايد باي سايد</option>
+                        <option value="ثلاجة عرض">ثلاجة عرض</option>
+                        <option value="غسالة أوتوماتيك">غسالة أوتوماتيك</option>
+                        <option value="غسالة فوق أوتوماتيك">غسالة فوق أوتوماتيك</option>
+                        <option value="غسالة أطباق">غسالة أطباق</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">تفاصيل العطل</label>
+                    <textarea id="issue" required rows="3" class="w-full bg-[#111827] border border-[#1f2937] rounded-xl px-4 py-3 text-sm transition-all resize-none" placeholder="اشرح المشكلة التي تواجهها"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">العنوان</label>
+                    <textarea id="address" required rows="2" class="w-full bg-[#111827] border border-[#1f2937] rounded-xl px-4 py-3 text-sm transition-all resize-none" placeholder="المحافظة - المنطقة - الشارع"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-[#00d47e] hover:bg-[#00b86b] text-[#0a0f1e] font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    ارسال عبر واتساب
+                </button>
+            </form>
+        </div>
+
+        <!-- Screen 5: متابعة الطلب -->
+        <div id="track" class="screen">
+            <button onclick="showScreen('home')" class="mb-6 flex items-center gap-2 text-[#9ca3af] hover:text-[#00d47e] transition-colors">
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                العودة
+            </button>
+
+            <h2 class="text-2xl font-extrabold mb-2">متابعة الطلب</h2>
+            <p class="text-[#9ca3af] mb-8">تابع حالة طلب الصيانة الخاص بك</p>
+
+            <div class="bg-[#111827] border border-[#1f2937] rounded-2xl p-5 mb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <p class="text-xs text-[#9ca3af]">رقم الطلب</p>
+                        <p class="font-bold">#AM
